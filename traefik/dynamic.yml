@@ -1,0 +1,24 @@
+# certs mounting points in the container(s)
+tls:
+  certificates:
+    - certFile: /etc/traefik/certs/localhost-cert.pem
+      keyFile: /etc/traefik/certs/localhost-key.pem
+      stores:
+        - default
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/traefik/certs/localhost-cert.pem
+        keyFile: /etc/traefik/certs/localhost-key.pem
+
+# middleware
+http:
+  middlewares:
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+        # notes about port: 
+        # do NOT specify nor hardcode the port, if using a custom file provider instead of Docker provider
+        # doc: see https://doc.traefik.io/traefik/middlewares/http/redirectscheme/
+        port: "8443"
+        permanent: true
